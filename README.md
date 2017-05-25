@@ -1,12 +1,12 @@
-Butuh
+<b>Butuh</b>
 - JRE versi 8
 - apache maven (maleh anyar maleh apik)
 - mysql database server (maleh anyar maleh apik)
 
 ojo lali edit environment PATH(gawe apache maven) lan JAVA_HOME(gawe JRE)
 
-Nyiptakno aplikasi
+<b>Nyiptakno aplikasi</b><br>
 jalaknno 'mvn package' nang cmd utowo terminal
 
-Ngincipi aplikasi
+<b>Ngincipi aplikasi</b><br>
 jalakno 'mvn package exec:java' nang cmd utowo terminal
