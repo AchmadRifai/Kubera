@@ -20,5 +20,7 @@ public class Main {
         }java.awt.EventQueue.invokeLater(()->{
             if(!raden.janoko.kubera.util.Work.f.exists())new raden.janoko.kubera.ui.DBCon().setVisible(true);
         });
+        /*raden.janoko.kubera.util.Rupiah r=new raden.janoko.kubera.util.Rupiah(100000);
+        System.out.println(r);*/
     }
 }
