@@ -8,6 +8,7 @@ package raden.janoko.kubera.util;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -57,8 +58,11 @@ public class Work {
         }
     }
 
-    public static void initDB(String host, String nama, int port, String user, String pass) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public static void initDB(String host, String nama, int port, String user, String pass) throws SQLException {
+        Db d=new Db(host,"mysql",port,user,pass);
+        d.exec("create database "+nama);
+        d.setName(nama);
+        d.close();
     }
 
     public static void saveDB(String host, String nama, int port, String user, String pass) throws GeneralSecurityException, 

@@ -7,6 +7,7 @@ package raden.janoko.kubera.ui;
 
 import java.io.IOException;
 import java.security.GeneralSecurityException;
+import java.sql.SQLException;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
 import org.xml.sax.SAXException;
@@ -16,7 +17,7 @@ import org.xml.sax.SAXException;
  * @author ai
  */
 public class DBCon extends javax.swing.JFrame {
-
+private Thread t1,t2;
     /**
      * Creates new form DBCon
      */
@@ -177,18 +178,29 @@ public class DBCon extends javax.swing.JFrame {
     }//GEN-LAST:event_passKeyReleased
 
     private void sActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sActionPerformed
-        new Thread(()->{
-            raden.janoko.kubera.util.Work.initDB(host.getText(),nama.getText(),Integer.parseInt(""+port.getValue()),
-                    user.getText(),pass.getText());
-        }).start();new Thread(()->{
+        t1=new Thread(()->{
             try {
-                raden.janoko.kubera.util.Work.saveDB(host.getText(),nama.getText(),Integer.parseInt(""+port.getValue()),
-                        user.getText(),pass.getText());
-            } catch (GeneralSecurityException | TransformerException 
-                    | ParserConfigurationException | IOException | SAXException | ClassNotFoundException ex) {
+                raden.janoko.kubera.util.Work.initDB(host.getText(), nama.getText(), Integer.parseInt(""+port.getValue()), user.getText(),
+                        pass.getText());
+                this.setVisible(false);
+            } catch (SQLException ex) {
+                t2.interrupt();
+                enableAll();
                 raden.janoko.kubera.util.Work.hindar(ex);
             }
-        }).start();disableAll();
+        });t1.start();
+        t2=new Thread(()->{
+            try {
+                raden.janoko.kubera.util.Work.saveDB(host.getText(), nama.getText(), Integer.parseInt(""+port.getValue()), user.getText(),
+                        pass.getText());
+            } catch (GeneralSecurityException | TransformerException | ParserConfigurationException | IOException | SAXException 
+                    | ClassNotFoundException ex) {
+                t1.interrupt();
+                enableAll();
+                raden.janoko.kubera.util.Work.hindar(ex);
+            }
+        });t2.start();
+        disableAll();
     }//GEN-LAST:event_sActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -217,5 +229,20 @@ public class DBCon extends javax.swing.JFrame {
         pass.setEnabled(false);
         port.setEnabled(false);
         user.setEnabled(false);
+    }
+
+    private void enableAll() {
+        host.setText("localhost");
+        host.setEnabled(true);
+        nama.setText("");
+        nama.setEnabled(true);
+        pass.setText("");
+        pass.setEnabled(true);
+        port.setValue(3306);
+        port.setEnabled(true);
+        user.setText("root");
+        user.setEnabled(true);
+        refresh();
+        this.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
     }
 }

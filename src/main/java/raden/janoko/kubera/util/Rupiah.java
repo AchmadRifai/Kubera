@@ -34,4 +34,8 @@ public class Rupiah {
             x++;
         }return duwek+ongko;
     }
+
+    public long getData() {
+        return data;
+    }
 }
