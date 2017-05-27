@@ -62,6 +62,13 @@ public class Work {
         Db d=new Db(host,"mysql",port,user,pass);
         d.exec("create database "+nama);
         d.setName(nama);
+        new raden.janoko.kubera.entity.dao.DAOAset(d).createTable();
+        new raden.janoko.kubera.entity.dao.DAOBeban(d).createTable();
+        new raden.janoko.kubera.entity.dao.DAOKewajiban(d).createTable();
+        new raden.janoko.kubera.entity.dao.DAOPendapatan(d).createTable();
+        new raden.janoko.kubera.entity.dao.DAOPemasukan(d).createTable();
+        new raden.janoko.kubera.entity.dao.DAOPengeluaran(d).createTable();
+        new raden.janoko.kubera.entity.dao.DAOHubungan(d).createTable();
         d.close();
     }
 

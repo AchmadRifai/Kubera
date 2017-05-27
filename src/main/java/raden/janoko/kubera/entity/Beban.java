@@ -11,29 +11,27 @@ import java.sql.SQLException;
  *
  * @author ai
  */
-public class Aset {
+public class Beban {
     private String kode,nama;
-    private raden.janoko.kubera.util.Rupiah saldo;
     private Type tipe;
-    private boolean deleted,kas;
+    private boolean deleted;
+    private raden.janoko.kubera.util.Rupiah jumlah;
 
-    public Aset(String kode, raden.janoko.kubera.util.Db d) throws SQLException {
-        java.sql.PreparedStatement p=d.execPrepare("select*from aset where kode=?");
-        p.setString(1, kode);
+    public Beban(String k, raden.janoko.kubera.util.Db d) throws SQLException {
+        java.sql.PreparedStatement p=d.execPrepare("select*from beban where kode=?");
+        p.setString(1, k);
         java.sql.ResultSet r=p.executeQuery();
         if(r.next()){
-            this.kode=r.getString("kode");
+            kode=r.getString("kode");
             nama=r.getString("nama");
             tipe=Type.valueOf(r.getString("tipe"));
             deleted=r.getBoolean("deleted");
-            saldo=new raden.janoko.kubera.util.Rupiah(r.getLong("saldo"));
-            kas=r.getBoolean("kas");
+            jumlah=new raden.janoko.kubera.util.Rupiah(r.getLong("jumlah"));
         }r.close();
         p.close();
     }
 
-    public Aset() {
-    }
+    public Beban() {}
 
     public String getKode() {
         return kode;
@@ -67,21 +65,13 @@ public class Aset {
         this.deleted = deleted;
     }
 
-    public boolean isKas() {
-        return kas;
+    public raden.janoko.kubera.util.Rupiah getJumlah() {
+        return jumlah;
     }
 
-    public void setKas(boolean kas) {
-        this.kas = kas;
+    public void setJumlah(raden.janoko.kubera.util.Rupiah jumlah) {
+        this.jumlah = jumlah;
     }
 
-    public raden.janoko.kubera.util.Rupiah getSaldo() {
-        return saldo;
-    }
-
-    public void setSaldo(raden.janoko.kubera.util.Rupiah saldo) {
-        this.saldo = saldo;
-    }
-
-    public enum Type {liquid,pajak,tetap,tak_berwujud,lain}
+    public enum Type {perolehan,rutin,operasi,lain}
 }

@@ -150,7 +150,7 @@
     </Component>
     <Component class="javax.swing.JButton" name="s">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Menuju Dashboard"/>
+        <Property name="text" type="java.lang.String" value="Pengaturan Lanjut"/>
         <Property name="enabled" type="boolean" value="false"/>
       </Properties>
       <Events>

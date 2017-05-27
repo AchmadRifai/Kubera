@@ -5,19 +5,14 @@
  */
 package raden.janoko.kubera.ui;
 
-import java.io.IOException;
-import java.security.GeneralSecurityException;
 import java.sql.SQLException;
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.TransformerException;
-import org.xml.sax.SAXException;
 
 /**
  *
  * @author ai
  */
 public class DBCon extends javax.swing.JFrame {
-private Thread t1,t2;
+private Thread t1;
     /**
      * Creates new form DBCon
      */
@@ -92,7 +87,7 @@ private Thread t1,t2;
             }
         });
 
-        s.setText("Menuju Dashboard");
+        s.setText("Pengaturan Lanjut");
         s.setEnabled(false);
         s.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -184,22 +179,10 @@ private Thread t1,t2;
                         pass.getText());
                 this.setVisible(false);
             } catch (SQLException ex) {
-                t2.interrupt();
                 enableAll();
                 raden.janoko.kubera.util.Work.hindar(ex);
             }
         });t1.start();
-        t2=new Thread(()->{
-            try {
-                raden.janoko.kubera.util.Work.saveDB(host.getText(), nama.getText(), Integer.parseInt(""+port.getValue()), user.getText(),
-                        pass.getText());
-            } catch (GeneralSecurityException | TransformerException | ParserConfigurationException | IOException | SAXException 
-                    | ClassNotFoundException ex) {
-                t1.interrupt();
-                enableAll();
-                raden.janoko.kubera.util.Work.hindar(ex);
-            }
-        });t2.start();
         disableAll();
     }//GEN-LAST:event_sActionPerformed
 
