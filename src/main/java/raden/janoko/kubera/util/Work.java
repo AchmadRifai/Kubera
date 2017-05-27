@@ -14,6 +14,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.OutputKeys;
 import javax.xml.transform.TransformerException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
@@ -72,19 +73,6 @@ public class Work {
         d.close();
     }
 
-    public static void saveDB(String host, String nama, int port, String user, String pass) throws GeneralSecurityException, 
-            TransformerException, ParserConfigurationException, IOException, SAXException, ClassNotFoundException {
-        Document d=javax.xml.parsers.DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument();
-        org.w3c.dom.Element e=d.createElement("kkk");
-        d.appendChild(e);
-        e.appendChild(XMLDataDB("d",host,d));
-        e.appendChild(XMLDataDB("dd",nama,d));
-        e.appendChild(XMLDataDB("ddd",""+port,d));
-        e.appendChild(XMLDataDB("dddd",user,d));
-        e.appendChild(XMLDataDB("ddddd",pass,d));
-        simpanXML(d);
-    }
-
     private static Node XMLDataDB(String s, String v, Document d) throws GeneralSecurityException, IOException, ClassNotFoundException {
         org.w3c.dom.Element e=d.createElement(s);
         RSA r=loadRSA();
@@ -103,6 +91,24 @@ public class Work {
         javax.xml.transform.dom.DOMSource ds=new javax.xml.transform.dom.DOMSource(d);
         javax.xml.transform.stream.StreamResult sr=new javax.xml.transform.stream.StreamResult(f);
         javax.xml.transform.Transformer t=javax.xml.transform.TransformerFactory.newInstance().newTransformer();
+        t.setOutputProperty(OutputKeys.METHOD, "xml");
+        t.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
+        t.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
+        t.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "8");
         t.transform(ds, sr);
+    }
+
+    public static void simpanDBConfig(DBConfig db) throws ParserConfigurationException, IOException, ClassNotFoundException, 
+            GeneralSecurityException, TransformerException{
+        Document d=javax.xml.parsers.DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument();
+        org.w3c.dom.Element e=d.createElement("kkk");
+        d.appendChild(e);
+        e.appendChild(XMLDataDB("d",db.getHost(),d));
+        e.appendChild(XMLDataDB("dd",db.getName(),d));
+        e.appendChild(XMLDataDB("ddd",""+db.getPort(),d));
+        e.appendChild(XMLDataDB("dddd",db.getUser(),d));
+        e.appendChild(XMLDataDB("ddddd",db.getPass(),d));
+        e.appendChild(XMLDataDB("dddddd",db.getNp(),d));
+        simpanXML(d);
     }
 }

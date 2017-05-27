@@ -175,15 +175,22 @@ private Thread t1;
     private void sActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sActionPerformed
         t1=new Thread(()->{
             try {
+                raden.janoko.kubera.util.DBConfig d=new raden.janoko.kubera.util.DBConfig();
+                d.setHost(host.getText());
+                d.setName(nama.getText());
+                d.setNp("");
+                d.setPass(pass.getText());
+                d.setPort(Integer.parseInt(""+port.getValue()));
+                d.setUser(user.getText());
                 raden.janoko.kubera.util.Work.initDB(host.getText(), nama.getText(), Integer.parseInt(""+port.getValue()), user.getText(),
                         pass.getText());
+                new NextConfig(d).setVisible(true);
                 this.setVisible(false);
             } catch (SQLException ex) {
                 enableAll();
                 raden.janoko.kubera.util.Work.hindar(ex);
             }
-        });t1.start();
-        disableAll();
+        });t1.start();disableAll();
     }//GEN-LAST:event_sActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

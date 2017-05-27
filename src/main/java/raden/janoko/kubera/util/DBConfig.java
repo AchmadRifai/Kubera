@@ -10,5 +10,54 @@ package raden.janoko.kubera.util;
  * @author ai
  */
 public class DBConfig {
-    private String host,name,user,pass;
+    private String host,name,user,pass,np;
+    private int port;
+
+    public String getHost() {
+        return host;
+    }
+
+    public void setHost(String host) {
+        this.host = host;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getUser() {
+        return user;
+    }
+
+    public void setUser(String user) {
+        this.user = user;
+    }
+
+    public String getPass() {
+        return pass;
+    }
+
+    public void setPass(String pass) {
+        this.pass = pass;
+    }
+
+    public String getNp() {
+        return np;
+    }
+
+    public void setNp(String np) {
+        this.np = np;
+    }
+
+    public int getPort() {
+        return port;
+    }
+
+    public void setPort(int port) {
+        this.port = port;
+    }
 }
