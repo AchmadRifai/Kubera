@@ -22,9 +22,9 @@ public class DAOPendapatan implements DAO<Pendapatan>{
 
     @Override
     public void createTable() throws SQLException {
-        d.exec("create table pendapatan(kode varchar(20)primary key,"
+        d.getS().executeUpdate("create table pendapatan(kode varchar(20)primary key,"
                 + "ket text not null,sk text not null,"
-                + "jumlah bigint not null,deleted boolean not null)").close();
+                + "jumlah bigint not null,deleted boolean not null)");
     }
 
     @Override

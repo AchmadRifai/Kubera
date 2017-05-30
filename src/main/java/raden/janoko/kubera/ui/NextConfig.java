@@ -115,6 +115,7 @@ private raden.janoko.kubera.util.DBConfig dbc;
             try {
                 dbc.setNp(np.getText());
                 raden.janoko.kubera.util.Work.simpanDBConfig(dbc);
+                raden.janoko.kubera.util.Work.createReport();
                 new Dash().setVisible(true);
                 this.setVisible(false);
             } catch (ParserConfigurationException | IOException | ClassNotFoundException | GeneralSecurityException | TransformerException ex) {

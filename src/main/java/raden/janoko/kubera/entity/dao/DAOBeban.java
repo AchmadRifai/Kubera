@@ -22,9 +22,9 @@ public class DAOBeban implements DAO<Beban>{
 
     @Override
     public void createTable() throws SQLException {
-        d.exec("create table beban(kode varchar(20)primary key,"
+        d.getS().executeUpdate("create table beban(kode varchar(20)primary key,"
                 + "nama varchar(20)not null,tipe varchar(9)not null,"
-                + "deleted boolean not null,jumlah bigint not null)").close();
+                + "deleted boolean not null,jumlah bigint not null)");
     }
 
     @Override

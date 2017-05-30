@@ -5,6 +5,8 @@
  */
 package raden.janoko.kubera.util;
 
+import java.sql.SQLException;
+
 /**
  *
  * @author ai
@@ -59,5 +61,9 @@ public class DBConfig {
 
     public void setPort(int port) {
         this.port = port;
+    }
+
+    public Db genDB() throws SQLException{
+        return new Db(host, name, port, user, pass);
     }
 }

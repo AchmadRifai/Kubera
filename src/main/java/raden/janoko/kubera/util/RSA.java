@@ -77,7 +77,7 @@ public class RSA {
     }
 
     private PrivateKey loadPri() throws IOException, ClassNotFoundException {
-        java.io.FileInputStream f=new java.io.FileInputStream(pub);
+        java.io.FileInputStream f=new java.io.FileInputStream(pri);
         java.io.ObjectInputStream i=new java.io.ObjectInputStream(f);
         PrivateKey k=(PrivateKey) i.readObject();
         i.close();

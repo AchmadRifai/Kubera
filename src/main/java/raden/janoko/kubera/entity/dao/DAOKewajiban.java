@@ -22,10 +22,10 @@ public class DAOKewajiban implements DAO<Kewajiban>{
 
     @Override
     public void createTable() throws SQLException {
-        d.exec("create table kewajiban(kode varchar(20)primary key,"
+        d.getS().executeUpdate("create table kewajiban(kode varchar(20)primary key,"
                 + "nama varchar(30)not null,jumlah bigint not null,"
                 + "tipe varchar(7)not null,selesai boolean not null,"
-                + "deleted boolean not null,pajak boolean not null)").close();
+                + "deleted boolean not null,pajak boolean not null)");
     }
 
     @Override

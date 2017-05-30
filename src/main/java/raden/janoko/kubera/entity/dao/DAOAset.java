@@ -22,10 +22,10 @@ public class DAOAset implements DAO<Aset>{
 
     @Override
     public void createTable() throws SQLException {
-        d.exec("create table aset(kode varchar(20)primary key,"
+        d.getS().executeUpdate("create table aset(kode varchar(20)primary key,"
                 + "nama varchar(40)not null,saldo bigint not null,"
                 + "tipe varchar(12)not null,"
-                + "kas boolean not null,deleted boolean not null)").close();
+                + "kas boolean not null,deleted boolean not null)");
     }
 
     @Override
@@ -106,7 +106,7 @@ public class DAOAset implements DAO<Aset>{
 
     public Aset kas() throws SQLException{
         Aset a=null;
-        java.sql.ResultSet r=d.exec("select kode from aset where kas adn tipe='liquid'");
+        java.sql.ResultSet r=d.exec("select kode from aset where kas and tipe='liquid'");
         if(r.next())a=new Aset(r.getString("kode"),d);
         r.close();
         return a;

@@ -9,7 +9,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.sql.SQLException;
-import java.time.LocalDate;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.UnsupportedLookAndFeelException;
@@ -37,9 +36,9 @@ public class Work {
     }
 
     public static void hindar(Exception e){
-        java.sql.Date d=java.sql.Date.valueOf(LocalDate.now());
-        java.io.File f=new java.io.File(System.getProperty("user.home")+"/.kubera/error/"+d.getDate()+"-"+d.getMonth()+"-"+d.getYear()+"/"+
-        d.getHours()+"-"+d.getMinutes()+"-"+d.getSeconds()+".log");
+        java.util.Date d=new java.util.Date();
+        java.io.File f=new java.io.File(System.getProperty("user.home")+"/.kubera/error/"+d.getDay()+"-"+d.getMonth()+"-"+d.getYear()+"/"+
+                d.getHours()+"-"+d.getMinutes()+"-"+d.getSeconds()+".log");
         if(!f.getParentFile().exists())f.getParentFile().mkdirs();
         if(f.exists())f.delete();try {
             java.io.PrintStream o=new java.io.PrintStream(f);
@@ -61,7 +60,7 @@ public class Work {
 
     public static void initDB(String host, String nama, int port, String user, String pass) throws SQLException {
         Db d=new Db(host,"mysql",port,user,pass);
-        d.exec("create database "+nama);
+        d.getS().executeUpdate("create database "+nama);
         d.setName(nama);
         new raden.janoko.kubera.entity.dao.DAOAset(d).createTable();
         new raden.janoko.kubera.entity.dao.DAOBeban(d).createTable();
@@ -110,5 +109,42 @@ public class Work {
         e.appendChild(XMLDataDB("ddddd",db.getPass(),d));
         e.appendChild(XMLDataDB("dddddd",db.getNp(),d));
         simpanXML(d);
+    }
+
+    public static void createReport() throws FileNotFoundException {
+        if(!raden.janoko.kubera.report.PenerimaanKas.f.exists())raden.janoko.kubera.report.PenerimaanKas.init();
+        if(!raden.janoko.kubera.report.PengeluaranKas.f.exists())raden.janoko.kubera.report.PengeluaranKas.init();
+    }
+
+    public static DBConfig loadDB() throws ParserConfigurationException, SAXException, IOException, GeneralSecurityException, ClassNotFoundException {
+        DBConfig d=new DBConfig();
+        Document doc=javax.xml.parsers.DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(f);
+        d.setHost(loadDataXML("d",doc));
+        d.setName(loadDataXML("dd",doc));
+        d.setNp(loadDataXML("dddddd",doc));
+        d.setPass(loadDataXML("ddddd",doc));
+        d.setPort(Integer.parseInt(loadDataXML("ddd",doc)));
+        d.setUser(loadDataXML("dddd",doc));
+        return d;
+    }
+
+    private static String loadDataXML(String s, Document d) throws GeneralSecurityException, IOException, ClassNotFoundException {
+        org.w3c.dom.NodeList nl=d.getElementsByTagName(s);
+        String st="";
+        RSA r=loadRSA();
+        for(int x=0;x<nl.getLength();x++)if(nl.item(x).getNodeType()==org.w3c.dom.Node.ELEMENT_NODE){
+            org.w3c.dom.Element e=(org.w3c.dom.Element) nl.item(x);
+            st=r.decrypt(e.getTextContent());
+            break;
+        }return st;
+    }
+
+    public static boolean isKurangKas(DBConfig d) throws SQLException {
+        boolean b=true;
+        Db db=d.genDB();
+        raden.janoko.kubera.entity.dao.DAOAset dao=new raden.janoko.kubera.entity.dao.DAOAset(db);
+        b&=null!=dao.kas();
+        db.close();
+        return b;
     }
 }

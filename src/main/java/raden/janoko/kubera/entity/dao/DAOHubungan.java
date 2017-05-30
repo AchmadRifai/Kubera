@@ -23,12 +23,12 @@ public class DAOHubungan implements DAO<Hubungan>{
 
     @Override
     public void createTable() throws SQLException {
-        d.exec("create table hubungan(asetKredit varchar(20),"
+        d.getS().executeUpdate("create table hubungan(asetKredit varchar(20),"
                 + "asetDebit varchar(20),sumberMasuk varchar(30),"
                 + "sumberKeluar varchar(30),bebanKredit varchar(20),"
                 + "bebanDebit varchar(20),wajibKredit varchar(20),"
                 + "wajibDebit varchar(20),dapatKredit varchar(20),"
-                + "dapatDebit varcahr(20),deleted boolean not null)").close();
+                + "dapatDebit varchar(20),deleted boolean not null)");
         relasi();
     }
 
@@ -135,16 +135,17 @@ public class DAOHubungan implements DAO<Hubungan>{
     }
 
     private void relasi() throws SQLException {
-        d.exec("alter table hubungan add foriegn key(asetKredit)references aset(kode)on update cascade on delete cascade").close();
-        d.exec("alter table hubungan add foriegn key(asetDebit)references aset(kode)on update cascade on delete cascade").close();
-        d.exec("alter table hubungan add foriegn key(sumberMasuk)references pemasukan(kode)on update cascade on delete cascade").close();
-        d.exec("alter table hubungan add foriegn key(sumberKeluar)references pengeluaran(kode)on update cascade on delete cascade").close();
-        d.exec("alter table hubungan add foriegn key(bebanKredit)references beban(kode)on update cascade on delete cascade").close();
-        d.exec("alter table hubungan add foriegn key(bebanDebit)references beban(kode)on update cascade on delete cascade").close();
-        d.exec("alter table hubungan add foriegn key(wajibKredit)references kewajiban(kode)on update cascade on delete cascade").close();
-        d.exec("alter table hubungan add foriegn key(wajibDebit)references kewajiban(kode)on update cascade on delete cascade").close();
-        d.exec("alter table hubungan add foriegn key(dapatKredit)references pendapatan(kode)on update cascade on delete cascade").close();
-        d.exec("alter table hubungan add foriegn key(dapatDebit)references pendapatan(kode)on update cascade on delete cascade").close();
+        d.getS().executeUpdate("alter table hubungan add foreign key(asetKredit)references aset(kode)on update cascade on delete cascade");
+        d.getS().executeUpdate("alter table hubungan add foreign key(asetDebit)references aset(kode)on update cascade on delete cascade");
+        d.getS().executeUpdate("alter table hubungan add foreign key(sumberMasuk)references pemasukan(kode)on update cascade on delete cascade");
+        d.getS().executeUpdate("alter table hubungan add foreign key(sumberKeluar)references "
+                + "pengeluaran(kode)on update cascade on delete cascade");
+        d.getS().executeUpdate("alter table hubungan add foreign key(bebanKredit)references beban(kode)on update cascade on delete cascade");
+        d.getS().executeUpdate("alter table hubungan add foreign key(bebanDebit)references beban(kode)on update cascade on delete cascade");
+        d.getS().executeUpdate("alter table hubungan add foreign key(wajibKredit)references kewajiban(kode)on update cascade on delete cascade");
+        d.getS().executeUpdate("alter table hubungan add foreign key(wajibDebit)references kewajiban(kode)on update cascade on delete cascade");
+        d.getS().executeUpdate("alter table hubungan add foreign key(dapatKredit)references pendapatan(kode)on update cascade on delete cascade");
+        d.getS().executeUpdate("alter table hubungan add foreign key(dapatDebit)references pendapatan(kode)on update cascade on delete cascade");
     }
 
     private void nextPrepare(PreparedStatement p, Hubungan v) throws SQLException {

@@ -94,4 +94,12 @@ public class Db {
         this.pass = pass;
         start();
     }
+
+    public java.sql.Statement getS() {
+        return s;
+    }
+
+    public void setS(java.sql.Statement s) {
+        this.s = s;
+    }
 }

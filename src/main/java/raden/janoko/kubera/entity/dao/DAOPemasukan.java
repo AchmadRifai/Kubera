@@ -22,12 +22,12 @@ public class DAOPemasukan implements DAO<Pemasukan>{
 
     @Override
     public void createTable() throws SQLException {
-        d.exec("create table pemasukan(kode varchar(30)primary key,"
+        d.getS().executeUpdate("create table pemasukan(kode varchar(30)primary key,"
                 + "ket text not null,sumber varchar(20)not null,"
                 + "tgl date not null,rek varchar(20)not null,"
                 + "jumlah bigint not null,akumulasi bigint not null,"
-                + "deleted boolean not null)").close();
-        d.exec("alter table pemasukan add foreign key(rek)references aset(kode)on update cascade on delete cascade").close();
+                + "deleted boolean not null)");
+        d.getS().executeUpdate("alter table pemasukan add foreign key(rek)references aset(kode)on update cascade on delete cascade");
     }
 
     @Override
