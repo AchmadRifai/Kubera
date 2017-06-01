@@ -78,6 +78,7 @@ private raden.janoko.kubera.util.DBConfig d;
         int x=JOptionPane.showConfirmDialog(rootPane, "apa anda ingin menghentikan aplikasi?", "HENTIKAN?", JOptionPane.YES_NO_OPTION);
         if(x==JOptionPane.NO_OPTION)new Dash().setVisible(true);
         this.setVisible(false);
+        raden.janoko.kubera.util.Work.ending();
     }//GEN-LAST:event_formWindowClosing
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
@@ -86,8 +87,12 @@ private raden.janoko.kubera.util.DBConfig d;
                 d=raden.janoko.kubera.util.Work.loadDB();
                 raden.janoko.kubera.util.Work.createReport();
                 next();
-            } catch (ParserConfigurationException | SAXException | IOException | GeneralSecurityException | ClassNotFoundException | SQLException ex) {
+                muatSemua();
+                lanjut();
+            } catch (ParserConfigurationException | SAXException | IOException | GeneralSecurityException | 
+                    ClassNotFoundException | SQLException ex) {
                 raden.janoko.kubera.util.Work.hindar(ex);
+                raden.janoko.kubera.util.Work.ending();
             }setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         }).start();this.setCursor(new java.awt.Cursor(java.awt.Cursor.WAIT_CURSOR));
     }//GEN-LAST:event_formWindowOpened
@@ -98,6 +103,35 @@ private raden.janoko.kubera.util.DBConfig d;
     // End of variables declaration//GEN-END:variables
 
     private void next() throws SQLException {
-        if(raden.janoko.kubera.util.Work.isKurangKas(d)){}
+        while(!raden.janoko.kubera.util.Work.isKurangKas(d)){
+            setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+            raden.janoko.kubera.ui.oper.aset.AddKas a=new raden.janoko.kubera.ui.oper.aset.AddKas(this, true, d);
+            a.setVisible(true);
+            while(a.isVisible()){}
+            setCursor(new java.awt.Cursor(java.awt.Cursor.WAIT_CURSOR));
+        }while(!raden.janoko.kubera.util.Work.isKurangPajak(d)){
+            setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+            raden.janoko.kubera.ui.oper.kewajiban.AddPajak a=new 
+        raden.janoko.kubera.ui.oper.kewajiban.AddPajak(this, true, d);
+            a.setVisible(true);
+            while(a.isVisible()){}
+            setCursor(new java.awt.Cursor(java.awt.Cursor.WAIT_CURSOR));
+        }setCursor(new java.awt.Cursor(java.awt.Cursor.WAIT_CURSOR));
+    }
+
+    private void muatSemua() {
+        //
+    }
+
+@SuppressWarnings("SleepWhileInLoop")
+    private void lanjut() {
+        new Thread(()->{
+            while(this.isVisible())try {
+                muatSemua();
+                Thread.sleep(5000);
+                } catch (InterruptedException ex) {
+                    raden.janoko.kubera.util.Work.hindar(ex);
+                }
+        }).start();setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
     }
 }

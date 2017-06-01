@@ -29,7 +29,6 @@ public class DAOHubungan implements DAO<Hubungan>{
                 + "bebanDebit varchar(20),wajibKredit varchar(20),"
                 + "wajibDebit varchar(20),dapatKredit varchar(20),"
                 + "dapatDebit varchar(20),deleted boolean not null)");
-        relasi();
     }
 
     @Override
@@ -134,30 +133,16 @@ public class DAOHubungan implements DAO<Hubungan>{
         return l;
     }
 
-    private void relasi() throws SQLException {
-        d.getS().executeUpdate("alter table hubungan add foreign key(asetKredit)references aset(kode)on update cascade on delete cascade");
-        d.getS().executeUpdate("alter table hubungan add foreign key(asetDebit)references aset(kode)on update cascade on delete cascade");
-        d.getS().executeUpdate("alter table hubungan add foreign key(sumberMasuk)references pemasukan(kode)on update cascade on delete cascade");
-        d.getS().executeUpdate("alter table hubungan add foreign key(sumberKeluar)references "
-                + "pengeluaran(kode)on update cascade on delete cascade");
-        d.getS().executeUpdate("alter table hubungan add foreign key(bebanKredit)references beban(kode)on update cascade on delete cascade");
-        d.getS().executeUpdate("alter table hubungan add foreign key(bebanDebit)references beban(kode)on update cascade on delete cascade");
-        d.getS().executeUpdate("alter table hubungan add foreign key(wajibKredit)references kewajiban(kode)on update cascade on delete cascade");
-        d.getS().executeUpdate("alter table hubungan add foreign key(wajibDebit)references kewajiban(kode)on update cascade on delete cascade");
-        d.getS().executeUpdate("alter table hubungan add foreign key(dapatKredit)references pendapatan(kode)on update cascade on delete cascade");
-        d.getS().executeUpdate("alter table hubungan add foreign key(dapatDebit)references pendapatan(kode)on update cascade on delete cascade");
-    }
-
     private void nextPrepare(PreparedStatement p, Hubungan v) throws SQLException {
-        p.setString(1, v.getAsetKredit().getKode()!=null?v.getAsetKredit().getKode():"");
-        p.setString(2, v.getAsetDebit().getKode()!=null?v.getAsetDebit().getKode():"");
-        p.setString(3, v.getSumberMasuk().getKode()!=null?v.getSumberMasuk().getKode():"");
-        p.setString(4, v.getSumberKeluar().getKode()!=null?v.getSumberKeluar().getKode():"");
-        p.setString(5, v.getBebanKredit().getKode()!=null?v.getBebanKredit().getKode():"");
-        p.setString(6, v.getBebanDebit().getKode()!=null?v.getBebanDebit().getKode():"");
-        p.setString(7, v.getWajibKredit().getKode()!=null?v.getWajibKredit().getKode():"");
-        p.setString(8, v.getWajibDebit().getKode()!=null?v.getWajibDebit().getKode():"");
-        p.setString(9, v.getDapatKredit().getKode()!=null?v.getDapatKredit().getKode():"");
-        p.setString(10, v.getDapatDebit().getKode()!=null?v.getDapatDebit().getKode():"");
+        p.setString(1, v.getAsetKredit()!=null?v.getAsetKredit().getKode():"");
+        p.setString(2, v.getAsetDebit()!=null?v.getAsetDebit().getKode():"");
+        p.setString(3, v.getSumberMasuk()!=null?v.getSumberMasuk().getKode():"");
+        p.setString(4, v.getSumberKeluar()!=null?v.getSumberKeluar().getKode():"");
+        p.setString(5, v.getBebanKredit()!=null?v.getBebanKredit().getKode():"");
+        p.setString(6, v.getBebanDebit()!=null?v.getBebanDebit().getKode():"");
+        p.setString(7, v.getWajibKredit()!=null?v.getWajibKredit().getKode():"");
+        p.setString(8, v.getWajibDebit()!=null?v.getWajibDebit().getKode():"");
+        p.setString(9, v.getDapatKredit()!=null?v.getDapatKredit().getKode():"");
+        p.setString(10, v.getDapatDebit()!=null?v.getDapatDebit().getKode():"");
     }
 }

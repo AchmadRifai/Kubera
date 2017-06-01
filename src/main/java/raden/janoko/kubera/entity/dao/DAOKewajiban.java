@@ -110,7 +110,7 @@ public class DAOKewajiban implements DAO<Kewajiban>{
 
     public Kewajiban pajak() throws SQLException{
         Kewajiban k=null;
-        java.sql.ResultSet r=d.exec("select kode from kewajiban where pajak");
+        java.sql.ResultSet r=d.exec("select kode from kewajiban where pajak and not deleted");
         if(r.next())k=new Kewajiban(r.getString("kode"),d);
         r.close();
         return k;

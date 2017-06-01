@@ -5,17 +5,23 @@
  */
 package raden.janoko.kubera.ui.oper.aset;
 
+import java.awt.Color;
+import java.sql.SQLException;
+import java.time.LocalDate;
+import raden.janoko.kubera.entity.Aset;
+
 /**
  *
  * @author ai
  */
 public class AddKas extends javax.swing.JDialog {
-
+private raden.janoko.kubera.util.DBConfig dbc;
     /**
      * Creates new form AddKas
      */
-    public AddKas(java.awt.Frame parent, boolean modal) {
+    public AddKas(java.awt.Frame parent, boolean modal,raden.janoko.kubera.util.DBConfig db) {
         super(parent, modal);
+        dbc=db;
         initComponents();
     }
 
@@ -34,6 +40,7 @@ public class AddKas extends javax.swing.JDialog {
         jumlah = new javax.swing.JFormattedTextField();
         nama = new javax.swing.JTextField();
         kode = new javax.swing.JTextField();
+        s = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Tambah Kas");
@@ -44,6 +51,35 @@ public class AddKas extends javax.swing.JDialog {
 
         jLabel3.setText("Jumlah");
 
+        jumlah.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0"))));
+        jumlah.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        jumlah.setText("0");
+        jumlah.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jumlahKeyReleased(evt);
+            }
+        });
+
+        nama.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                namaKeyReleased(evt);
+            }
+        });
+
+        kode.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                kodeKeyReleased(evt);
+            }
+        });
+
+        s.setText("Simpan");
+        s.setEnabled(false);
+        s.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                sActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -51,15 +87,19 @@ public class AddKas extends javax.swing.JDialog {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel3)
-                    .addComponent(jLabel2)
-                    .addComponent(jLabel1))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jumlah)
-                    .addComponent(nama)
-                    .addComponent(kode, javax.swing.GroupLayout.DEFAULT_SIZE, 145, Short.MAX_VALUE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(s, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel1))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jumlah)
+                            .addComponent(nama)
+                            .addComponent(kode, javax.swing.GroupLayout.DEFAULT_SIZE, 145, Short.MAX_VALUE))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -76,54 +116,55 @@ public class AddKas extends javax.swing.JDialog {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(jumlah, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(217, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(s)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(AddKas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(AddKas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(AddKas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(AddKas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
+    private void kodeKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_kodeKeyReleased
+    if(!kode.getText().isEmpty())try {
+        raden.janoko.kubera.util.Db d=dbc.genDB();
+        raden.janoko.kubera.entity.Aset a=new raden.janoko.kubera.entity.Aset(kode.getText(), d);
+        if(a.getKode()!=null)kode.setForeground(Color.red);
+        else kode.setForeground(Color.BLACK);
+        d.close();
+    } catch (SQLException ex) {
+        raden.janoko.kubera.util.Work.hindar(ex);
+    }refresh();
+    }//GEN-LAST:event_kodeKeyReleased
 
-        /* Create and display the dialog */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                AddKas dialog = new AddKas(new javax.swing.JFrame(), true);
-                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-                    @Override
-                    public void windowClosing(java.awt.event.WindowEvent e) {
-                        System.exit(0);
-                    }
-                });
-                dialog.setVisible(true);
-            }
-        });
-    }
+    private void jumlahKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jumlahKeyReleased
+        if(jumlah.isValid()&&!jumlah.getText().isEmpty()){
+            int x=Integer.parseInt(jumlah.getText());
+            if(x<0)jumlah.setForeground(Color.red);
+            else jumlah.setForeground(Color.BLACK);
+        }refresh();
+    }//GEN-LAST:event_jumlahKeyReleased
+
+    private void namaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_namaKeyReleased
+        refresh();
+    }//GEN-LAST:event_namaKeyReleased
+
+    private void sActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sActionPerformed
+        new Thread(()->{
+            try {
+                saveAset();
+                saveIncome();
+                saveHubungan();
+            } catch (SQLException ex) {
+                enableAll();
+                raden.janoko.kubera.util.Work.hindar(ex);
+            }setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        }).start();setCursor(new java.awt.Cursor(java.awt.Cursor.WAIT_CURSOR));
+        s.setEnabled(false);
+        jumlah.setEnabled(false);
+        kode.setEnabled(false);
+        nama.setEnabled(false);
+    }//GEN-LAST:event_sActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
@@ -132,5 +173,62 @@ public class AddKas extends javax.swing.JDialog {
     private javax.swing.JFormattedTextField jumlah;
     private javax.swing.JTextField kode;
     private javax.swing.JTextField nama;
+    private javax.swing.JButton s;
     // End of variables declaration//GEN-END:variables
+
+    private void refresh() {
+        s.setEnabled(!kode.getText().isEmpty()&&Color.BLACK==kode.getForeground()&&!nama.getText().isEmpty()&&jumlah.isValid()&&
+        !jumlah.getText().isEmpty()&&Color.BLACK==jumlah.getForeground());
+    }
+
+    private void saveAset() throws SQLException {
+        raden.janoko.kubera.util.Db d=dbc.genDB();
+        Aset a=new Aset();
+        a.setDeleted(false);
+        a.setKas(true);
+        a.setKode(kode.getText());
+        a.setNama(nama.getText());
+        a.setTipe(Aset.Type.liquid);
+        a.setSaldo(new raden.janoko.kubera.util.Rupiah(Long.parseLong(jumlah.getText())));
+        new raden.janoko.kubera.entity.dao.DAOAset(d).insert(a);
+        d.close();
+    }
+
+    private void enableAll() {
+        kode.setText("");
+        kode.setEnabled(true);
+        nama.setText("");
+        nama.setEnabled(true);
+        jumlah.setText("0");
+        jumlah.setEnabled(true);
+        setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+    }
+
+    private void saveIncome() throws SQLException {
+        raden.janoko.kubera.util.Db d=dbc.genDB();
+        raden.janoko.kubera.entity.Pemasukan p=new raden.janoko.kubera.entity.Pemasukan();
+        java.sql.Date tgl=java.sql.Date.valueOf(LocalDate.now());
+        p.setKet("Saldo Pindahan");
+        p.setRek(new Aset(kode.getText(),d));
+        p.setDeleted(false);
+        p.setTgl(tgl);
+        p.setSumber("Kas");
+        p.setKode(kode.getText()+tgl);
+        p.setAkumulasi(new raden.janoko.kubera.util.Rupiah(Long.parseLong(jumlah.getText())));
+        p.setJumlah(new raden.janoko.kubera.util.Rupiah(Long.parseLong(jumlah.getText())));
+        new raden.janoko.kubera.entity.dao.DAOPemasukan(d).insert(p);
+        d.close();
+    }
+
+    private void saveHubungan() throws SQLException {
+        raden.janoko.kubera.util.Db d=dbc.genDB();
+        raden.janoko.kubera.entity.Hubungan h=new raden.janoko.kubera.entity.Hubungan();
+        java.sql.Date tgl=java.sql.Date.valueOf(LocalDate.now());
+        h.setDeleted(false);
+        h.setSumberMasuk(new raden.janoko.kubera.entity.Pemasukan(kode.getText()+tgl, d));
+        h.setAsetDebit(new Aset(kode.getText(),d));
+        new raden.janoko.kubera.entity.dao.DAOHubungan(d).insert(h);
+        d.close();
+        this.setVisible(false);
+    }
 }

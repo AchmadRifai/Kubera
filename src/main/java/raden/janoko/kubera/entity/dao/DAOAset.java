@@ -106,7 +106,7 @@ public class DAOAset implements DAO<Aset>{
 
     public Aset kas() throws SQLException{
         Aset a=null;
-        java.sql.ResultSet r=d.exec("select kode from aset where kas and tipe='liquid'");
+        java.sql.ResultSet r=d.exec("select kode from aset where kas and tipe='liquid' and not deleted");
         if(r.next())a=new Aset(r.getString("kode"),d);
         r.close();
         return a;

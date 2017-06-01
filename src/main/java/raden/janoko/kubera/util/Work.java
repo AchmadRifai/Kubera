@@ -147,4 +147,18 @@ public class Work {
         db.close();
         return b;
     }
+
+    public static boolean isKurangPajak(DBConfig d) throws SQLException {
+        boolean b=true;
+        Db db=d.genDB();
+        raden.janoko.kubera.entity.dao.DAOKewajiban dao=new raden.janoko.kubera.entity.dao.DAOKewajiban(db);
+        b&=null!=dao.pajak();
+        db.close();
+        return b;
+    }
+
+    public static void ending() {
+        System.gc();
+        System.exit(0);
+    }
 }
