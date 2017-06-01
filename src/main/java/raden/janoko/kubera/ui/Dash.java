@@ -8,8 +8,6 @@ package raden.janoko.kubera.ui;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.xml.parsers.ParserConfigurationException;
 import org.xml.sax.SAXException;
@@ -78,7 +76,6 @@ private raden.janoko.kubera.util.DBConfig d;
         int x=JOptionPane.showConfirmDialog(rootPane, "apa anda ingin menghentikan aplikasi?", "HENTIKAN?", JOptionPane.YES_NO_OPTION);
         if(x==JOptionPane.NO_OPTION)new Dash().setVisible(true);
         this.setVisible(false);
-        raden.janoko.kubera.util.Work.ending();
     }//GEN-LAST:event_formWindowClosing
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
